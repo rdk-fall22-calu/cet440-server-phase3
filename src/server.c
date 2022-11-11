@@ -1,66 +1,31 @@
-/*
- *@file server.c
- *@author Distint Howie (how4685@pennwest.edu)
+/**
+ * @file server.c
+ * @author Distint Howie (how4685@pennwest.edu)
  * @author Robert Krency (kre1188@pennwest.edu)
  * @author Anthony Stepich (ste4864@pennwest.edu)
 */
 
-#include <errno.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <time.h>
+
+#ifndef __SERVER_C__
+#define __SERVER_C__
+
+#include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <pthread.h>
 
+#include "server.h"
 #include "logging.h"
-#include "users.h"
-#include "commands.h"
 
-#define RCV_BUFFER_SIZE 1024
-#define SND_BUFFER_SIZE 1024
-#define PORT 4400
 
-int clientNumber = 0; // Store how many clients are connected
+static int clientNumber = 0;
 
-struct clientInfo {
-    char ipaddress[15];
-    void *sock;
-};
 
-/**
- * @brief Threading function
- * 
- * @return void* 
- */
-void *connection_handler(void *);
-
-/**
- * @brief Convert a string to all upper case
- * 
- * @param text 
- * @return char* 
- */
-char *strupr(char * text);
-
-/**
- * @brief Entry point and main loop for the server
- * 
- * @return int Exit message
- */
-int main()
+int setup_server()
 {
-    log_message("SERVER", "Starting server.");
-
-    // Load the accepted users list from file
-    if(!load_users_list())
-    {
-        log_message("SERVER", "Unable to load accepted users list, exiting.");
-        return 1;
-    }
+    log_message("SERVER", "Setting up server.");
 
     // Initialize the server
     int socket_desc, client_sock, c;
@@ -78,17 +43,25 @@ int main()
     //Prepare the sockaddr_in structure
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
-    server.sin_port = htons( 4400 );
+    server.sin_port = htons( PORT );
      
     //Bind
     if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
     {
         //print the error message
-        log_message("SERVER", "Bind failed.");
+        log_message("SERVER", "Socket bind failed.");
         return 1;
     }
-    log_message("SERVER", "Bind successful.");
-     
+    log_message("SERVER", "Socket bind successful.");
+
+    // Success
+    log_message("SERVER", "Server setup successful.");
+    return 0;
+}
+
+
+int start_server( void (*connection_handler)(void *) )
+{
     //Listen
     listen(socket_desc , 3);
      
@@ -123,144 +96,37 @@ int main()
         return 1;
     }
      
-    log_message("SERVER", "Exiting...");
+    log_message("SERVER", "Shutting down server.");
     return 0;
 }
- 
-/*
- * This will handle connection for each client
- * */
-void *connection_handler(void *clientInfo)
+
+
+void send_message(int socket, char *message)
 {
-    //Get the socket descriptor
-    struct clientInfo *info = clientInfo;
-    int sock = *(int*) info->sock;
+    // Encode the message
+    // TODO
+
+    // Send the message
+    write( socket, message, strlen(message));
+}
+
+
+int receive_message(int socket, char *client_message)
+{
+    // Receive the message
     int read_size;
-    char *message , mymessage[4000],  client_message[4000], threadName[20],
-         userID[10], displayMessage[4000];
-    snprintf(threadName, sizeof(threadName), "SERVER\\%d", clientNumber);
-    
-     
-    // Greet the Client
-    snprintf(displayMessage, sizeof(displayMessage), "Connecting to client at %s.", info->ipaddress);
-    log_message(threadName, displayMessage);
+    read_size = recv(socket, client_message, RCV_BUFFER_SIZE, 0);
 
-    snprintf(mymessage, sizeof(mymessage), "Greetings! You are the No.%d client. I am your connection handler.\nPlease input your User ID.\n", clientNumber);
-    message = mymessage;
-    write(sock , message , strlen(message));
-
-    // TODO: Get the user ID after first connection
-    read_size = recv(sock , client_message , 4000 , 0);
-    if (read_size <= 0)
+    // Check message size to ensure we received a message
+    if (read_size > 0)
     {
-        log_message(threadName, "Error receiving User ID.");
-        return 0;
-    }
-    
-    // Set the user ID to lower case
-    strcpy(userID, client_message);
-    for (int i = 0; userID[i]; i++)
-        userID[i] = tolower(userID[i]);
-    
-    // Return a response with the user ID
-    snprintf(displayMessage, sizeof(displayMessage), "Connected with user: %s", userID);
-    log_message(threadName, displayMessage);
-    write(sock , displayMessage , strlen(displayMessage));
-
-    // Set the user's IP Address
-    struct user *u = get_user(userID);
-    if (u != NULL)
-    {
-        strcpy(u->address, info->ipaddress);
-        save_user_data();
-    }
-     
-    //Receive a message from client
-    int quit = 0;
-    while( (read_size = recv(sock , client_message , 4000 , 0)) > 0 )
-    {
-        // End of string marker
-		client_message[read_size] = '\0';
-        strupr(client_message);
-
-        // Determine the command
-        if (strcmp(client_message, CMD_HELP) == 0)
-        {
-            log_message(threadName, "Executing HELP command.");
-            message = execute_help();
-        }
-        else if (strcmp(client_message, CMD_QUIT) == 0)
-        {
-            log_message(threadName, "Executing QUIT command.");
-            message = execute_quit();
-            quit = 1;
-        }
-        else if (strcmp(client_message, CMD_REGISTER) == 0)
-        {
-            log_message(threadName, "Executing REGISTER command.");
-            message = execute_register(userID);
-        }
-        else if (strcmp(client_message, CMD_MYINFO) == 0)
-        {
-            log_message(threadName, "Executing MYINFO command.");
-            message = execute_myinfo(userID);
-        }
-        else if (strcmp(client_message, CMD_ONLINE_USERS) == 0)
-        {
-            log_message(threadName, "Executing ONLINEUSERS command.");
-            message = execute_online_users(userID);
-        }
-        else if (strcmp(client_message, CMD_REGISTERED_USERS) == 0)
-        {
-            log_message(threadName, "Executing REGISTEREDUSERS command.");
-            message = execute_registered_users(userID);
-        }
-        else 
-        {
-            snprintf(displayMessage, sizeof(displayMessage), "Command not recognized. Client message: \n\n\t %s \n\n", client_message);
-            log_message(threadName, displayMessage);
-            message = "0#Command not recognized.";
-        }
-		
-		//Send the message back to client
-        write(sock , message , strlen(message));
-		
-		//clear the message buffer
-		memset(client_message, 0, 4000);
-
-        // Disconnect
-        if (quit == 1)
-            break;
-    }
-     
-    if(read_size == 0)
-    {
-        log_message(threadName, "Client disconnected.");
-        fflush(stdout);
-    }
-    else if(read_size == -1)
-    {
-        log_message(threadName, "Receive failed.");
+        // If so, decode the message
+        // TODO
     }
 
-    // Clear the user's IP Address
-    if (u != NULL)
-    {
-        strcpy(get_user(userID)->address, DEFAULT_IP_ADDRESS);
-        save_user_data();
-    }
-         
-    return 0;
-} 
-
-char *strupr(char * text)
-{
-	int i, j=strlen(text);
-	
-	for (i=0;i<j;i++)
-	{
-		if ((text[i]>=97)&&(text[i]<=122))
-			text[i]=text[i]-32;
-	}
-	return text;
+    // Return the size of the message received
+    return read_size;
 }
+
+
+#endif

@@ -18,6 +18,24 @@
 #define CMD_ONLINE_USERS "ONLINEUSERS"
 #define CMD_REGISTERED_USERS "REGISTEREDUSERS"
 
+enum command {
+    help,
+    quit,
+    register_user,
+    login,
+    logout,
+    my_info,
+    registered_users,
+    online_users
+};
+
+/**
+ * @brief 
+ * 
+ * @return int The Command that was input
+ */
+int get_command_from_input(char* input);
+
 /**
  * @brief Returns a string with all of the help information
  * 
