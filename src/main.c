@@ -168,6 +168,12 @@ void *connection_handler(void *clientInfo)
             log_message(threadName, "Executing REGISTEREDUSERS command.");
             message = execute_registered_users(userID);
         }
+	else if (strcmp(client_message, CMD_Login) == 0)
+	{
+	     log_message(threadName, "Executing Login command.");
+	     message = execute_login(userID);
+	}
+		
         else 
         {
             snprintf(displayMessage, sizeof(displayMessage), "Command not recognized. Client message: \n\n\t %s \n\n", client_message);
