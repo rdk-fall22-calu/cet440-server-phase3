@@ -73,7 +73,7 @@ int start_server( void (*connection_handler)(void *) )
     while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) )
     {
         log_message("SERVER", "Connection accepted.");
-        	clientNumber ++; //increase the number of connected clients
+        clientNumber ++; //increase the number of connected clients
 
         struct clientInfo info;
         info.sock = &client_sock;

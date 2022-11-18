@@ -54,6 +54,7 @@ char *strupr(char * text);
  */
 int main()
 {
+    initialize_logging();
     log_message("SERVER", "Starting server.");
 
     // Load the accepted users list from file
