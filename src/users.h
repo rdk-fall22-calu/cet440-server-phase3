@@ -36,7 +36,7 @@ struct user {
     float gpa;
     char address[50]; // IP Address user is connected from
     int status;
-    char password[20];
+    char password[50];
 };
 
 static struct user userList[NUM_USERS];
