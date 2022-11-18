@@ -33,7 +33,7 @@ char* execute_help()
             "\n"
             "Command: Login\n"
             "Description: Asks the user to input their password. Returns an informative response.\n"
-            "Example: 1#Successful Login.\n
+            "Example: 1#Successful Login.\n"
             "\n"
             "Command: MYINFO\n"
             "Description: Requires the user to be registered. MyInfo returns information about the user.\n"
