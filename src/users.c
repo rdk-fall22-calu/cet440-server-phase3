@@ -61,6 +61,11 @@ int load_users_list()
             // Get the User IP Address
             token = strtok(NULL, CSV_DELIMITER);
             strcpy(userList[userCount].address, token);
+            
+            //Get The user password
+            token = strok(NULL, CSV_DELIMITER);
+            strcpy(userList[userCount].password, token);
+            
 
             // Increment count
             userCount++;
@@ -117,6 +122,7 @@ int initialize_users()
             userList[userCount].gpa = ((rand() % 16) + 25) / 10.0f; // Value between 2.5-4.0
             userList[userCount].status = UNREGISTERED;
             strcpy(userList[userCount].address,DEFAULT_IP_ADDRESS);
+            strcpy(userList[usercount].password,DEFAULT_PASSWORD);
 
             // Increment count
             userCount++;
@@ -147,13 +153,14 @@ void save_user_data()
     int i;
     for (i = 0; i < NUM_USERS; i++)
     {
-        fprintf(userDataFile, "%s,%s,%d,%1.1f,%d,%s,\n",
+        fprintf(userDataFile, "%s,%s,%d,%1.1f,%d,%s,%s,\n",
             userList[i].userID,
             userList[i].name,
             userList[i].age,
             userList[i].gpa,
             userList[i].status,
-            userList[i].address);
+            userList[i].address,
+            userList[i].password);
     }
 
     // Close the file
