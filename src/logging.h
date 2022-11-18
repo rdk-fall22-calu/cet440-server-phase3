@@ -8,6 +8,14 @@
 #ifndef __LOGGING_H__
 #define __LOGGING_H__
 
+#define LOG_FILE_NAME "log.txt"
+
+/**
+ * @brief Sets up the logging module
+ * 
+ */
+void initialize_logging();
+
 /**
  * @brief Log the formatted message to the console
  * 
