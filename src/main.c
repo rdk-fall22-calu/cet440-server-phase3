@@ -169,11 +169,11 @@ void *connection_handler(void *clientInfo)
             log_message(threadName, "Executing REGISTEREDUSERS command.");
             message = execute_registered_users(userID);
         }
-	else if (strcmp(client_message, CMD_Login) == 0)
-	{
-	     log_message(threadName, "Executing Login command.");
-	     message = execute_login(userID);
-	}
+        else if (strcmp(client_message, CMD_LOGIN) == 0)
+        {
+            log_message(threadName, "Executing LOGIN command.");
+            message = execute_login(userID);
+        }
 		
         else 
         {
