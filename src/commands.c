@@ -11,7 +11,7 @@
 #include "users.h"
 #include <stdlib.h>
 #include <string.h>
-
+#include "server.h"
 
 char* execute_help()
 {
@@ -54,7 +54,7 @@ char* execute_quit()
     return "1#Disconnecting.";
 }
 
-char* execute_register(char* userID)
+char* execute_register(char* userID, int socket)
 {
     // Get the user
     struct user *user = get_user(userID);
@@ -67,33 +67,29 @@ char* execute_register(char* userID)
     if (user->status == REGISTERED)
         return "0#User is already registered.";
 
-    // Change user's status to registered.
-    user->status = REGISTERED;
-    save_user_data();
     //Prompt the user to set password and check if they match.
-    int f=1;
+    int attempts = 0;
+    char buff1[PWD_SIZE], buff2[PWD_SIZE];
+    do {
+        send_message(socket, "1#Please enter a password:");
+        receive_message(socket, buff1);
+
+        send_message(socket, "1#Please re-enter the password:");
+        receive_message(socket, buff2);
+
+        attempts++;
+
+    } while (strcmp(buff1, buff2) != 0 && attempts < 3);
     
-    while(f=1){
-        printf("please set your password you will need to enter it twice:");
-        
-        char buff[50];
-        
-        fgets(buff, sizeof(input), stdin);
-    
-        Printf("please enter your password again:");
-        
-        char input[50];
-        
-        fgets(input, sizeof(input), stdin);
-        
-        if(strcmp(buff,input) !=0)
-        {
-            printf("Passwords did not match");
-        }
-        else f=0;
+    // Check if there is no valid password
+    if (strcmp(buff1, buff2) != 0 )
+    {
+        return "0#Unable to register user.";
     }
-    
-    strcpy(buff,user->password);
+
+    // Change user's status to registered, copy in password, and save data.
+    user->status = REGISTERED;
+    strcpy(user->password, buff1);
     save_user_data();
     
     return "1#User successfully registered and password set.";

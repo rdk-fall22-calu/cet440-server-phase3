@@ -23,6 +23,7 @@
 
 #define DEFAULT_IP_ADDRESS "-1.-1.-1.-1"
 #define DEFAULT_PASSWORD "password"
+#define PWD_SIZE 50
 
 
 /**
@@ -36,7 +37,7 @@ struct user {
     float gpa;
     char address[50]; // IP Address user is connected from
     int status;
-    char password[50];
+    char password[PWD_SIZE];
 };
 
 static struct user userList[NUM_USERS];
