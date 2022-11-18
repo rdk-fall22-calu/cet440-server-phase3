@@ -22,6 +22,7 @@
 #define CSV_DELIMITER ","
 
 #define DEFAULT_IP_ADDRESS "-1.-1.-1.-1"
+#define DEFAULT_PASSWORD "password"
 
 
 /**
