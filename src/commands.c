@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 char* execute_help()
 {
     // blue:                    \033[0;34m
@@ -27,8 +28,12 @@ char* execute_help()
             "Example: 1#Disconnecting.\n"
             "\n"
             "Command: REGISTER\n"
-            "Description: Registers a user with the server, as long as the user is part of the accepted list. Returns an informative response.\n"
+            "Description: Registers a user with the server, as long as the user is part of the accepted list. If users first time registering will prompt to set password. Returns an informative response.\n"
             "Example: 0#Unable to register user.\n"
+            "\n"
+            "Command: Login\n"
+            "Description: Asks the user to input their password. Returns an informative response.\n"
+            "Example: 1#Successful Login.\n
             "\n"
             "Command: MYINFO\n"
             "Description: Requires the user to be registered. MyInfo returns information about the user.\n"
@@ -118,8 +123,57 @@ char* execute_register(char* userID)
     // Change user's status to registered.
     user->status = REGISTERED;
     save_user_data();
-    return "1#User successfully registered.";
+    //Prompt the user to set password and check if they match.
+   int f=1;
+    
+    while(f=1)
+    printf("please set your password you will need to enter it twice:");
+    
+    char buff[50];
+    
+    fgets(buff, sizeof(input), stdin);
+   
+    Printf("please enter your password again:");
+    
+    char input[50];
+    
+    fgets(input, sizeof(input), stdin);
+    
+    if(strcmp(buff,input) !=0)
+    {
+        printf("Passwords did not match");
+    }
+    else f=0;
+    
+    strcpy(buff,user->password);
+    save_user_data();
+    
+    return "1#User successfully registered and password set.";
 
+}
+
+char* execute_login(char* userID
+{
+    //Get the user
+    struct user *user = get_user(userID);
+    
+    //check if user exists and is registered
+    if (user == NULL || user->status != REGISTERED)
+        return "0#User must be registered.";
+        
+    //prompt the user for there password and check to see if it matches 
+    printf("please enter your password:");
+     char input[50];
+     int f=1;
+    
+    fgets(input, sizeof(input), stdin);
+  while(f==1)
+    if (strcmp(input,user->password) !=0)
+       { 
+        printf("Passwords did not match");
+       } 
+        else f=0;
+    return "1#Sucessful Login.";
 }
 
 char* execute_myinfo(char* userID)
