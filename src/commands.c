@@ -68,18 +68,13 @@ char* execute_register(char* userID, int socket)
         return "0#User is already registered.";
 
     //Prompt the user to set password and check if they match.
-    int attempts = 0;
     char buff1[PWD_SIZE], buff2[PWD_SIZE];
-    do {
-        send_message(socket, "1#Please enter a password:");
-        receive_message(socket, buff1);
 
-        send_message(socket, "1#Please re-enter the password:");
-        receive_message(socket, buff2);
+    send_message(socket, "1#Please enter a password:");
+    receive_message(socket, buff1);
 
-        attempts++;
-
-    } while (strcmp(buff1, buff2) != 0 && attempts < 3);
+    send_message(socket, "1#Please re-enter the password:");
+    receive_message(socket, buff2);
     
     // Check if there is no valid password
     if (strcmp(buff1, buff2) != 0 )
