@@ -17,6 +17,7 @@
 #define CMD_MYINFO "MYINFO"
 #define CMD_ONLINE_USERS "ONLINEUSERS"
 #define CMD_REGISTERED_USERS "REGISTEREDUSERS"
+#define CMD_LOGIN "LOGIN"
 
 enum command {
     help,
@@ -59,11 +60,21 @@ char* execute_quit();
 char* execute_register(char* userID);
 
 /**
+ * @brief The server will respond with a string telling thme if they had a successful login. Requires registered user.
+ * 
+ * @param userID 
+ * @return char* Response string
+ */
+
+char* execute_login(char*userID);
+
+/**
  * @brief The server will respond with a string of information about the user. Requires registered user.
  * 
  * @param userID 
  * @return char* Response string
  */
+
 char* execute_myinfo(char* userID);
 
 /**
