@@ -101,10 +101,10 @@ void *connection_handler(void *clientInfo)
 
     snprintf(mymessage, sizeof(mymessage), "Greetings! You are the No.%d client. I am your connection handler. Please input your User ID.", clientNumber);
     message = mymessage;
-    write(sock , message , strlen(message));
+    send_message(sock , message);
 
     // TODO: Get the user ID after first connection
-    read_size = recv(sock , client_message , 4000 , 0);
+    read_size = receive_message(sock , client_message);
     if (read_size <= 0)
     {
         log_message(threadName, "Error receiving User ID.");
@@ -119,7 +119,7 @@ void *connection_handler(void *clientInfo)
     // Return a response with the user ID
     snprintf(displayMessage, sizeof(displayMessage), "Connected with user: %s", userID);
     log_message(threadName, displayMessage);
-    write(sock , displayMessage , strlen(displayMessage));
+    send_message(sock , displayMessage);
 
     // Set the user's IP Address
     struct user *u = get_user(userID);
