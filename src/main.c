@@ -25,14 +25,8 @@
 
 #define RCV_BUFFER_SIZE 1024
 #define SND_BUFFER_SIZE 1024
-#define PORT 4400
 
 int clientNumber = 0; // Store how many clients are connected
-
-struct clientInfo {
-    char ipaddress[15];
-    void *sock;
-};
 
 /**
  * @brief Threading function
