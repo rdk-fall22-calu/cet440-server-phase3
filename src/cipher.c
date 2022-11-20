@@ -54,7 +54,7 @@ int load_cipher()
     // Print the cipher
     for (int i = 0; i < 95; i++)
     {
-        printf("%c %c", substitutionCipher.encode_list[i]+32, substitutionCipher.decode_list[i]+32);
+        printf("%c %c\n", substitutionCipher.encode_list[i]+32, substitutionCipher.decode_list[i]+32);
     }
 
     return CIPHER_LOADED;
