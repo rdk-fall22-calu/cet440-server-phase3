@@ -183,6 +183,7 @@ void *connection_handler(void *clientInfo)
         }
 		
 		//Send the message back to client
+        log_message(threadName, message);
         send_message(sock , message);
 		
 		//clear the message buffer
