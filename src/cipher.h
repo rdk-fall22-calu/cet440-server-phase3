@@ -24,7 +24,7 @@ struct cipher {
  * @brief Load the cipher key from memory and initialize the cipher
  * 
  */
-void load_cipher();
+int load_cipher();
 
 
 /**
