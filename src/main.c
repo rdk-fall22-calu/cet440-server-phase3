@@ -88,7 +88,7 @@ void *connection_handler(void *clientInfo)
 {
     //Get the socket descriptor
     struct clientInfo *info = clientInfo;
-    int sock = *(int*) info->sock;
+    int sock = *(int*) info->socket;
     int read_size;
     char *message , mymessage[4000],  client_message[4000], threadName[20],
          userID[10], displayMessage[4000];
