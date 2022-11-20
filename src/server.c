@@ -18,6 +18,7 @@
 
 #include "server.h"
 #include "logging.h"
+#include "cipher.h"
 
 
 static int clientNumber = 0;
@@ -104,7 +105,7 @@ int start_server( void (*connection_handler)(void *) )
 void send_message(int socket, char *message)
 {
     // Encode the message
-    // TODO
+    encode(message);
 
     // Send the message
     write( socket, message, strlen(message));
@@ -121,7 +122,7 @@ int receive_message(int socket, char *client_message)
     if (read_size > 0)
     {
         // If so, decode the message
-        // TODO
+        decode(client_message);
     }
 
     // Return the size of the message received
