@@ -5,8 +5,8 @@
  * @author Anthony Stepich (ste4864@pennwest.edu)
 */
 
-#ifndef _SERVER_H__
-#define _SERVER_H__
+#ifndef _SERVER_H
+#define _SERVER_H
 
 
 #define RCV_BUFFER_SIZE 1024
