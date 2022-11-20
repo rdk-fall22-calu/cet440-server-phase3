@@ -55,12 +55,12 @@ int load_cipher()
 
 void encode(char* text)
 {
-    for (int i = 0; text[i]; i++)
+    for (int i = 0; i < strln(text); i++)
         text[i] = substitutionCipher.encode_list[text[i]];
 }
 
 void decode(char* text)
 {
-    for (int i = 0; text[i]; i++)
+    for (int i = 0; i < strlen(text); i++)
         text[i] = substitutionCipher.decode_list[text[i]];
 }
