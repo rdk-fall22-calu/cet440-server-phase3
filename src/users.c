@@ -122,7 +122,7 @@ int initialize_users()
             userList[userCount].gpa = ((rand() % 16) + 25) / 10.0f; // Value between 2.5-4.0
             userList[userCount].status = STATUS_UNREGISTERED;
             strcpy(userList[userCount].address, DEFAULT_IP_ADDRESS);
-            strcpy(userList[usercount].password, DEFAULT_PASSWORD);
+            strcpy(userList[userCount].password, DEFAULT_PASSWORD);
 
             // Increment count
             userCount++;

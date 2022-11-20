@@ -22,14 +22,13 @@
 
 
 static int clientNumber = 0;
-
+static int socket_desc, client_sock, c;
 
 int setup_server()
 {
     log_message("SERVER", "Setting up server.");
 
     // Initialize the server
-    int socket_desc, client_sock, c;
     struct sockaddr_in server, client;
 
     // Create the Socket
