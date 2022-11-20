@@ -20,6 +20,7 @@
 #include "users.h"
 #include "commands.h"
 #include "server.h"
+#include "cipher.h"
 
 #define RCV_BUFFER_SIZE 1024
 #define SND_BUFFER_SIZE 1024
@@ -56,6 +57,10 @@ int main()
 {
     initialize_logging();
     log_message("SERVER", "Starting server.");
+    
+    // Load the subsitution cipher
+    if ( load_cipher() == KEY_FILE_NOT_FOUND)
+        return 1;
 
     // Load the accepted users list from file
     if(!load_users_list())
