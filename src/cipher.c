@@ -58,11 +58,11 @@ int load_cipher()
 void encode(char* text)
 {
     for (int i = 0; i < strlen(text); i++)
-        text[i] = substitutionCipher.encode_list[text[i]];
+        text[i] = substitutionCipher.encode_list[text[i]-32]+32;
 }
 
 void decode(char* text)
 {
     for (int i = 0; i < strlen(text); i++)
-        text[i] = substitutionCipher.decode_list[text[i]];
+        text[i] = substitutionCipher.decode_list[text[i]-32]+32;
 }
