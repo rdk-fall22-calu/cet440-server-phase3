@@ -175,8 +175,8 @@ char* execute_registered_users(char* userID)
     struct user *user = get_user(userID);
 
     // Check if the user exists and is registered
-    if (user == NULL || user->status != REGISTERED)
-        return "0#User must be registered.";
+    if (user == NULL || user->status != STATUS_LOGGED_IN)
+        return "0#User must be logged in.";
 
     // Put together the list of registered users.
     char message[4000];
