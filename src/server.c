@@ -64,7 +64,7 @@ int setup_server()
 }
 
 
-int start_server( void (connection_handler)(void *) )
+int start_server( void (*connection_handler)(void *) )
 {
     //Listen
     listen(socket_desc , 3);
