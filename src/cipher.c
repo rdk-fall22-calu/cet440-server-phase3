@@ -55,7 +55,7 @@ int load_cipher()
 
 void encode(char* text)
 {
-    for (int i = 0; i < strln(text); i++)
+    for (int i = 0; i < strlen(text); i++)
         text[i] = substitutionCipher.encode_list[text[i]];
 }
 
