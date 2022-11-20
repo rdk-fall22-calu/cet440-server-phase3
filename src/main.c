@@ -134,8 +134,6 @@ void *connection_handler(void *clientInfo)
     while( (read_size = receive_message(sock, client_message)) > 0 )
     {
         // End of string markers
-        snprintf(displayMessage, sizeof(displayMessage), "Recevied: %s\n\tRead Size: %d", client_message, read_size);
-        log_message(threadName, displayMessage);
         strupr(client_message);
 
         // Determine the command
@@ -177,7 +175,7 @@ void *connection_handler(void *clientInfo)
         }
         else 
         {
-            snprintf(displayMessage, sizeof(displayMessage), "Command not recognized. Client message: \n\n\t %s \n\n", client_message);
+            snprintf(displayMessage, sizeof(displayMessage), "Command not recognized. Client message: %s", client_message);
             log_message(threadName, displayMessage);
             message = "0#Command not recognized.";
         }
