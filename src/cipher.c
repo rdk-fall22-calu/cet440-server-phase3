@@ -51,7 +51,7 @@ int load_cipher()
     // Good load
     log_message("SERVER", "Successfully initialized cipher key.");
 
-    char* s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+    char* s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~";
     log_message("SERVER", s);
     encode(s);
     log_message("SERVER", s);
@@ -63,8 +63,16 @@ int load_cipher()
 
 void encode(char* text)
 {
+    char m[1000];
+    snprintf(m, sizeof(m), "Encoding: %s", text);
+    log_message("SERVER", m);
+
     for (int i = 0; i < strlen(text); i++)
+    {
+        snprintf(m, sizeof(m), "Encoding: %c", text[i]);
+        log_message("SERVER", m);
         text[i] = substitutionCipher.encode_list[text[i]-32]+32;
+    }
 }
 
 void decode(char* text)
