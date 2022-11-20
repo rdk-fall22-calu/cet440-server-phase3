@@ -34,7 +34,7 @@ int setup_server();
  * 
  * @param connection_handler The function to call for connection handling
  */
-int start_server(void (*connection_handler)(void *));
+int start_server(void (connection_handler)(void *));
 
 
 /**
