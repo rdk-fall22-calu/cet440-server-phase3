@@ -9,12 +9,18 @@
 #ifndef __SERVER_C__
 #define __SERVER_C__
 
+
+#include <errno.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <time.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <pthread.h>
 
 #include "server.h"
 #include "logging.h"
