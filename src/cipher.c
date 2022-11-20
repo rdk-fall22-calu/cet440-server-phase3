@@ -50,6 +50,8 @@ int load_cipher()
 
     // Good load
     log_message("SERVER", "Successfully initialized cipher key.");
+    log_message("SERVER", substitutionCipher.encode_list);
+    log_message("SERVER", substitutionCipher.decode_list);
     return CIPHER_LOADED;
 }
 
