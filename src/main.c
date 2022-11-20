@@ -133,10 +133,11 @@ void *connection_handler(void *clientInfo)
     int quit = 0;
     while( (read_size = receive_message(sock, client_message)) > 0 )
     {
-        // End of string marker
+        // End of string markers
+        snprintf(displayMessage, sizeof(displayMessage), "Recevied: %s\n\tRead Size: %d", client_message, read_size);
+        log_message(threadName, displayMessage);
 		client_message[read_size] = '\0';
         strupr(client_message);
-        log_message(threadName, client_message);
 
         // Determine the command
         if (strcmp(client_message, CMD_HELP) == 0)
@@ -183,7 +184,6 @@ void *connection_handler(void *clientInfo)
         }
 		
 		//Send the message back to client
-        log_message(threadName, message);
         send_message(sock , message);
 		
 		//clear the message buffer
