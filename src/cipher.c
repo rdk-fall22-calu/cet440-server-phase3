@@ -51,6 +51,13 @@ int load_cipher()
     // Good load
     log_message("SERVER", "Successfully initialized cipher key.");
 
+    char* s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+    log_message("SERVER", s);
+    encode(s);
+    log_message("SERVER", s);
+    decode(s);
+    log_message("SERVER", s);
+
     return CIPHER_LOADED;
 }
 
