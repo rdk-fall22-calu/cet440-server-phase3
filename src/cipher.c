@@ -50,19 +50,24 @@ int load_cipher()
 
     // Good load
     log_message("SERVER", "Successfully initialized cipher key.");
-    log_message("SERVER", substitutionCipher.encode_list);
-    log_message("SERVER", substitutionCipher.decode_list);
+
+    // Print the cipher
+    for (int i = 0; i < 95; i++)
+    {
+        printf("%c %c", substitutionCipher.encode_list[i]+32, substitutionCipher.decode_list[i]+32);
+    }
+
     return CIPHER_LOADED;
 }
 
 void encode(char* text)
 {
     for (int i = 0; i < strlen(text); i++)
-        text[i] = substitutionCipher.encode_list[text[i]-32];
+        text[i] = substitutionCipher.encode_list[text[i]-32]+32;
 }
 
 void decode(char* text)
 {
     for (int i = 0; i < strlen(text); i++)
-        text[i] = substitutionCipher.decode_list[text[i]-32];
+        text[i] = substitutionCipher.decode_list[text[i]-32]+32;
 }
