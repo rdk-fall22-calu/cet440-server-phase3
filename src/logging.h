@@ -5,8 +5,8 @@
  * @author Anthony Stepich (ste4864@pennwest.edu)
 */
 
-#ifndef __LOGGING_H__
-#define __LOGGING_H__
+#ifndef _LOGGING_H__
+#define _LOGGING_H__
 
 #define LOG_FILE_NAME "log.txt"
 

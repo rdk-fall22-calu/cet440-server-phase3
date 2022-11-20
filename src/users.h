@@ -7,8 +7,8 @@
  * 
  */
 
-#ifndef __USERS_H__
-#define __USERS_H__
+#ifndef _USERS_H__
+#define _USERS_H__
 
 #define NUM_USERS 27
 

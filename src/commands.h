@@ -8,8 +8,8 @@
  */
 
 
-#ifndef __COMMANDS_H__
-#define __COMMANDS_H__
+#ifndef _COMMANDS_H__
+#define _COMMANDS_H__
 
 #define CMD_HELP "HELP"
 #define CMD_QUIT "QUIT"

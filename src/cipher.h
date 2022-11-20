@@ -7,8 +7,8 @@
  * 
  */
 
-#ifndef __CIPHER_H__
-#define __CIPHER_H__
+#ifndef _CIPHER_H__
+#define _CIPHER_H__
 
 #define KEY_FILE "key.txt"
 #define KEY_FILE_NOT_FOUND 1
