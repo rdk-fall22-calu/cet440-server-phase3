@@ -32,6 +32,7 @@ int load_cipher()
     // Get the cipher key as a line
     char line[500];
     fgets(line, 500, keyFile);
+    close(keyFile);
 
     // Parse each line
     char *token;
