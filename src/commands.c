@@ -185,7 +185,7 @@ char* execute_registered_users(char* userID)
     struct user *userList = get_user_list();
     for (int i = 0; i < NUM_USERS; i++)
     {
-        if (userList[i].status == REGISTERED)
+        if (userList[i].status == STATUS_LOGGED_IN)
         {
             strcat(message, "#");
             strcat(message, userList[i].userID);
