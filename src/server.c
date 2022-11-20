@@ -64,7 +64,7 @@ int setup_server()
 }
 
 
-int start_server( void (*connection_handler)(void *) )
+int start_server( void * (*connection_handler)(void *) )
 {
     //Listen
     listen(socket_desc , 3);
@@ -83,7 +83,7 @@ int start_server( void (*connection_handler)(void *) )
         info.socket = &client_sock;
         strcpy(info.ipaddress, inet_ntoa(client.sin_addr));
          
-        if( pthread_create( &thread_id , NULL ,  &connection_handler , (void*) &info) < 0)
+        if( pthread_create( &thread_id , NULL ,  connection_handler , (void*) &info) < 0)
         {
             log_message("SERVER", "Could not create thread. Exiting...");
             return 1;
