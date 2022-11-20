@@ -136,7 +136,7 @@ void *connection_handler(void *clientInfo)
      
     //Receive a message from client
     int quit = 0;
-    while( (read_size = recv(sock , client_message , 4000 , 0)) > 0 )
+    while( (read_size = receive_message(sock, client_message)) > 0 )
     {
         // End of string marker
 		client_message[read_size] = '\0';
@@ -157,7 +157,12 @@ void *connection_handler(void *clientInfo)
         else if (strcmp(client_message, CMD_REGISTER) == 0)
         {
             log_message(threadName, "Executing REGISTER command.");
-            message = execute_register(userID);
+            message = execute_register(userID, sock);
+        }
+        else if (strcmp(client_message, CMD_LOGIN) == 0)
+        {
+            log_message(threadName, "Executing LOGIN command.");
+            message = execute_login(userID, sock);
         }
         else if (strcmp(client_message, CMD_MYINFO) == 0)
         {
@@ -174,12 +179,6 @@ void *connection_handler(void *clientInfo)
             log_message(threadName, "Executing REGISTEREDUSERS command.");
             message = execute_registered_users(userID);
         }
-        else if (strcmp(client_message, CMD_LOGIN) == 0)
-        {
-            log_message(threadName, "Executing LOGIN command.");
-            message = execute_login(userID);
-        }
-		
         else 
         {
             snprintf(displayMessage, sizeof(displayMessage), "Command not recognized. Client message: \n\n\t %s \n\n", client_message);
@@ -188,7 +187,7 @@ void *connection_handler(void *clientInfo)
         }
 		
 		//Send the message back to client
-        write(sock , message , strlen(message));
+        send_message(sock , message);
 		
 		//clear the message buffer
 		memset(client_message, 0, 4000);
@@ -206,13 +205,6 @@ void *connection_handler(void *clientInfo)
     else if(read_size == -1)
     {
         log_message(threadName, "Receive failed.");
-    }
-
-    // Clear the user's IP Address
-    if (u != NULL)
-    {
-        strcpy(get_user(userID)->address, DEFAULT_IP_ADDRESS);
-        save_user_data();
     }
          
     return 0;

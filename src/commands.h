@@ -19,17 +19,6 @@
 #define CMD_REGISTERED_USERS "REGISTEREDUSERS"
 #define CMD_LOGIN "LOGIN"
 
-enum command {
-    help,
-    quit,
-    register_user,
-    login,
-    logout,
-    my_info,
-    registered_users,
-    online_users
-};
-
 /**
  * @brief 
  * 
@@ -45,7 +34,7 @@ int get_command_from_input(char* input);
 char* execute_help();
 
 /**
- * @brief This command returns a quit message for response
+ * @brief If the user is logged into the server, it logs them out and returns a disconnecting message.
  * 
  * @return char* Response string
  */
@@ -57,7 +46,7 @@ char* execute_quit();
  * @param userID 
  * @return char* Response string
  */
-char* execute_register(char* userID);
+char* execute_register(char* userID, int socket);
 
 /**
  * @brief The server will respond with a string telling thme if they had a successful login. Requires registered user.
@@ -66,7 +55,7 @@ char* execute_register(char* userID);
  * @return char* Response string
  */
 
-char* execute_login(char*userID);
+char* execute_login(char*userID, int socket);
 
 /**
  * @brief The server will respond with a string of information about the user. Requires registered user.

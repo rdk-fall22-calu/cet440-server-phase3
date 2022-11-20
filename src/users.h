@@ -11,8 +11,10 @@
 #define __USERS_H__
 
 #define NUM_USERS 27
-#define REGISTERED 1
-#define UNREGISTERED 0
+
+#define STATUS_UNREGISTERED 0
+#define STATUS_REGISTERED 1
+#define STATUS_LOGGED_IN 2
 
 #define FILE_READ "r"
 #define FILE_WRITE "w"
@@ -22,7 +24,7 @@
 #define CSV_DELIMITER ","
 
 #define DEFAULT_IP_ADDRESS "-1.-1.-1.-1"
-#define DEFAULT_PASSWORD "password"
+#define DEFAULT_PASSWORD "def_pwd"
 #define PWD_SIZE 50
 
 

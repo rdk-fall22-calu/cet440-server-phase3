@@ -32,27 +32,37 @@ char* execute_help()
             "Example: 0#Unable to register user.\n"
             "\n"
             "Command: LOGIN\n"
-            "Description: Asks the user to input their password. Returns an informative response.\n"
+            "Description: Requires the user to be registered. Asks the user to input their password. Returns an informative response.\n"
             "Example: 1#Successful Login.\n"
             "\n"
             "Command: MYINFO\n"
-            "Description: Requires the user to be registered. MyInfo returns information about the user.\n"
+            "Description: Requires the user to be logged in. MyInfo returns information about the user.\n"
             "Example: 1#Robert Krency#20#3.2#123.456.7.8\n"
             "\n"
             "Command: ONLINEUSERS\n"
-            "Description: Requires the user to be registered. Returns a list of currently active users, delimited by ‘#’.\n"
+            "Description: Requires the user to be logged in. Returns a list of currently active users, delimited by ‘#’.\n"
             "Example: 1#kre1188#chen#ste4864\n"
             "\n"
             "Command: REGISTEREDUSERS\n"
-            "Description: Requires the user to be registered. Returns a list of currently registered users, delimited by ‘#’.\n"
+            "Description: Requires the user to be logged in. Returns a list of currently registered users, delimited by ‘#’.\n"
             "Example: 1#kre1188#chen#ste4864\n"
         ;
 }
 
-char* execute_quit()
+
+char* execute_quit(char* userID)
 {
+    // Get the user
+    struct user *user = get_user(userID);
+
+    // Check if the user exists and is logged in
+    if (user != NULL && user->status == STATUS_LOGGED_IN)
+        // If so, log them out.
+        user->status = STATUS_REGISTERED;
+
     return "1#Disconnecting.";
 }
+
 
 char* execute_register(char* userID, int socket)
 {
@@ -64,7 +74,7 @@ char* execute_register(char* userID, int socket)
         return "0#Unable to register user.";
 
     // Check if the user is registered
-    if (user->status == REGISTERED)
+    if (user->status == STATUS_REGISTERED)
         return "0#User is already registered.";
 
     //Prompt the user to set password and check if they match.
@@ -83,7 +93,7 @@ char* execute_register(char* userID, int socket)
     }
 
     // Change user's status to registered, copy in password, and save data.
-    user->status = REGISTERED;
+    user->status = STATUS_REGISTERED;
     strcpy(user->password, buff1);
     save_user_data();
     
@@ -91,29 +101,31 @@ char* execute_register(char* userID, int socket)
 
 }
 
-char* execute_login(char* userID)
+
+char* execute_login(char* userID, int socket)
 {
-    //Get the user
+    // Get the user
     struct user *user = get_user(userID);
     
-    //check if user exists and is registered
-    if (user == NULL || user->status != REGISTERED)
+    // Check if user exists and is registered
+    if (user == NULL || user->status == STATUS_UNREGISTERED)
         return "0#User must be registered.";
         
-    //prompt the user for there password and check to see if it matches 
-    printf("please enter your password:");
+    // Prompt the user for their password and check to see if it matches 
+    send_message(socket, "Please enter your password:");
     char input[50];
-    int f=1;
-    
-    fgets(input, sizeof(input), stdin);
-    while(f==1)
-        if (strcmp(input,user->password) !=0)
-        { 
-            printf("Passwords did not match");
-        } 
-        else f=0;
-    return "1#Sucessful Login.";
+    receive_message(socket, input);
+
+    // Check if the input password is the same as the registered password.
+    if ( strcmp(input, user->password) == 0 )
+    {
+        user->status == STATUS_LOGGED_IN;
+        return "1#Successful Login.";
+    } else { 
+        return "0#Unsuccessful Login.";
+    }
 }
+
 
 char* execute_myinfo(char* userID)
 {
@@ -121,7 +133,7 @@ char* execute_myinfo(char* userID)
     struct user *user = get_user(userID);
 
     // Check if the user exists and is registered
-    if (user == NULL || user->status != REGISTERED)
+    if (user == NULL || user->status != STATUS_LOGGED_IN)
         return "0#User must be registered.";
 
     // Put together the info message
@@ -130,14 +142,15 @@ char* execute_myinfo(char* userID)
     return message;
 }
 
+
 char* execute_online_users(char* userID)
 {
     // Get the user
     struct user *user = get_user(userID);
 
     // Check if the user exists and is registered
-    if (user == NULL || user->status != REGISTERED)
-        return "0#User must be registered.";
+    if (user == NULL || user->status != STATUS_LOGGED_IN)
+        return "0#User must be logged in.";
 
     // Put together the list of online users
     char message[4000];
@@ -155,16 +168,15 @@ char* execute_online_users(char* userID)
     return message;
 }
 
+
 char* execute_registered_users(char* userID)
 {
-    
     // Get the user
     struct user *user = get_user(userID);
 
     // Check if the user exists and is registered
     if (user == NULL || user->status != REGISTERED)
         return "0#User must be registered.";
-
 
     // Put together the list of registered users.
     char message[4000];
