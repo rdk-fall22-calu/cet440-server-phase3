@@ -31,9 +31,10 @@ int setup_server();
 
 /**
  * @brief Starts the server
- *  
+ * 
+ * @param connection_handler The function to call for connection handling
  */
-void start_server();
+void start_server(void (*connection_handler)(void *));
 
 
 /**
