@@ -136,7 +136,6 @@ void *connection_handler(void *clientInfo)
         // End of string markers
         snprintf(displayMessage, sizeof(displayMessage), "Recevied: %s\n\tRead Size: %d", client_message, read_size);
         log_message(threadName, displayMessage);
-		client_message[read_size] = '\0';
         strupr(client_message);
 
         // Determine the command

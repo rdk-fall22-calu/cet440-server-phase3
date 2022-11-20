@@ -32,7 +32,7 @@ int load_cipher();
  * 
  * @param text 
  */
-void encode(char* text);
+void encode(char* text, char* enc);
 
 
 /**
@@ -40,7 +40,7 @@ void encode(char* text);
  * 
  * @param text 
  */
-void decode(char* text);
+void decode(char* text, char* dec);
 
 
 #endif

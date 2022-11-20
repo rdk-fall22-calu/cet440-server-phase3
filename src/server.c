@@ -108,10 +108,11 @@ int start_server( void * (*connection_handler)(void *) )
 void send_message(int socket, char *message)
 {
     // Encode the message
-    encode(message);
+    char send_msg[SND_BUFFER_SIZE];
+    encode(message, send_msg);
 
     // Send the message
-    write( socket, message, strlen(message));
+    write( socket, send_msg, strlen(message));
 }
 
 
@@ -119,13 +120,16 @@ int receive_message(int socket, char *client_message)
 {
     // Receive the message
     int read_size;
-    read_size = recv(socket, client_message, RCV_BUFFER_SIZE, 0);
+    char recv_message[RCV_BUFFER_SIZE];
+    read_size = recv(socket, recv_message, RCV_BUFFER_SIZE, 0);
+	recv_message[read_size] = '\0';
+    client_message[read_size] = '\0';
 
     // Check message size to ensure we received a message
     if (read_size > 0)
     {
         // If so, decode the message
-        decode(client_message);
+        decode(recv_message, client_message);
     }
 
     // Return the size of the message received
