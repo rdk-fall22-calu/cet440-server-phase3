@@ -26,8 +26,6 @@
 #define SND_BUFFER_SIZE 1024
 #define PORT 4400
 
-#pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
-
 int clientNumber = 0; // Store how many clients are connected
 
 struct clientInfo {

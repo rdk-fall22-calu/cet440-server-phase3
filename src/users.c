@@ -63,7 +63,7 @@ int load_users_list()
             strcpy(userList[userCount].address, token);
             
             //Get The user password
-            token = strok(NULL, CSV_DELIMITER);
+            token = strtok(NULL, CSV_DELIMITER);
             strcpy(userList[userCount].password, token);
             
 
