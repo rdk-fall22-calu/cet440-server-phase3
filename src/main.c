@@ -136,6 +136,7 @@ void *connection_handler(void *clientInfo)
         // End of string marker
 		client_message[read_size] = '\0';
         strupr(client_message);
+        log_message(threadName, client_message);
 
         // Determine the command
         if (strcmp(client_message, CMD_HELP) == 0)
