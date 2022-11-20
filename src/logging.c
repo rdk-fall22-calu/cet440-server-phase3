@@ -41,6 +41,6 @@ void log_message(char *sender, char *message)
     printf("%s", printMesssage);
 
     // Print message to log file
-    fprinf(logFile, printMesssage);
+    fprintf(logFile, printMesssage);
 
 }
