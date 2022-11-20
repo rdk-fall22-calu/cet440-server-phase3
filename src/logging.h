@@ -24,4 +24,4 @@ void initialize_logging();
  */
 void log_message(char *sender, char *message);
 
-#endif __LOGGING_H__
+#endif
