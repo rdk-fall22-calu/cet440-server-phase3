@@ -28,7 +28,7 @@ int load_cipher();
 
 
 /**
- * @brief Encode the text in place using the substitution cipher
+ * @brief Encode the text into enc using the substitution cipher
  * 
  * @param text 
  */
@@ -36,7 +36,7 @@ void encode(char* text, char* enc);
 
 
 /**
- * @brief Decode the text in place using the substitution cipher
+ * @brief Decode the text into dec using the substitution cipher
  * 
  * @param text 
  */
