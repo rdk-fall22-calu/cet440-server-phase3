@@ -108,7 +108,7 @@ int start_server( void * (*connection_handler)(void *) )
 void send_message(int socket, char *message)
 {
     // Encode the message
-    char send_msg[SND_BUFFER_SIZE];
+    char send_msg[stlen(message)];
     encode(message, send_msg);
 
     // Send the message
