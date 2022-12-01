@@ -136,7 +136,7 @@ char* execute_myinfo(char* userID)
 
     // Check if the user exists and is registered
     if (user == NULL || user->status != STATUS_LOGGED_IN)
-        return "0#User must be registered.";
+        return "0#User must be logged in.";
 
     // Put together the info message
     char message[4000];

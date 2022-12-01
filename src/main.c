@@ -127,7 +127,10 @@ void *connection_handler(void *clientInfo)
     {
         strcpy(u->address, info->ipaddress);
         save_user_data();
+        snprintf(threadName, sizeof(threadName), "SERVER\\%d %s", clientNumber++, u->userID);
     }
+
+    
      
     //Receive a message from client
     int quit = 0;
@@ -189,6 +192,14 @@ void *connection_handler(void *clientInfo)
         // Disconnect
         if (quit == 1)
             break;
+    }
+
+    // Set the user's state to not logged in if they are logged in
+    struct user *u = get_user(userID);
+    if (u != NULL && u->status == STATUS_LOGGED_IN)
+    {
+        u->status = STATUS_REGISTERED;
+        save_user_data();
     }
      
     if(read_size == 0)
