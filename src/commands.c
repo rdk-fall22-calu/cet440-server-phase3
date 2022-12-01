@@ -188,6 +188,7 @@ char* execute_registered_users(char* userID)
     struct user *userList = get_user_list();
     for (int i = 0; i < NUM_USERS; i++)
     {
+        int status = userList[i].status;
         if ( status != STATUS_UNREGISTERED)
         {
             strcat(message, "#");
