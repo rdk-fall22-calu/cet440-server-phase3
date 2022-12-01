@@ -111,9 +111,6 @@ void send_message(int socket, char *message)
     char send_msg[strlen(message)];
     encode(message, send_msg);
 
-    log_message("CIPHER\\SEND", message);
-    log_message("CIPHER\\SEND", send_msg);
-
     // Send the message
     write( socket, send_msg, strlen(message));
 }
@@ -134,9 +131,6 @@ int receive_message(int socket, char *client_message)
         // If so, decode the message
         decode(recv_message, client_message);
     }
-
-    log_message("CIPHER\\RECV", recv_message);
-    log_message("CIPHER\\RECV", client_message);
 
     // Return the size of the message received
     return read_size;

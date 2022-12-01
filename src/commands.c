@@ -121,7 +121,7 @@ char* execute_login(char* userID, int socket)
     // Check if the input password is the same as the registered password.
     if ( strcmp(input, user->password) == 0 )
     {
-        user->status == STATUS_LOGGED_IN;
+        user->status = STATUS_LOGGED_IN;
         return "1#Successful Login.";
     } else { 
         return "0#Unsuccessful Login.";
