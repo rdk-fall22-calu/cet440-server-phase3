@@ -93,7 +93,6 @@ void *connection_handler(void *clientInfo)
     char *message , mymessage[4000],  client_message[4000], threadName[20],
          userID[10], displayMessage[4000];
     snprintf(threadName, sizeof(threadName), "SERVER\\%d", clientNumber++);
-    
      
     // Greet the Client
     snprintf(displayMessage, sizeof(displayMessage), "Connecting to client at %s.", info->ipaddress);
@@ -120,6 +119,9 @@ void *connection_handler(void *clientInfo)
     snprintf(displayMessage, sizeof(displayMessage), "Connected with user: %s", userID);
     log_message(threadName, displayMessage);
     send_message(sock , displayMessage);
+    
+    // Add the user ID to the thread name for logging
+    snprintf(threadName, sizeof(threadName), "SERVER\\%d %s", clientNumber++, userID);
 
     // Set the user's IP Address
     struct user *u = get_user(userID);
@@ -127,10 +129,7 @@ void *connection_handler(void *clientInfo)
     {
         strcpy(u->address, info->ipaddress);
         save_user_data();
-        snprintf(threadName, sizeof(threadName), "SERVER\\%d %s", clientNumber++, u->userID);
     }
-
-    
      
     //Receive a message from client
     int quit = 0;
