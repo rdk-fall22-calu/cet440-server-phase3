@@ -194,7 +194,6 @@ void *connection_handler(void *clientInfo)
     }
 
     // Set the user's state to not logged in if they are logged in
-    struct user *u = get_user(userID);
     if (u != NULL && u->status == STATUS_LOGGED_IN)
     {
         u->status = STATUS_REGISTERED;
