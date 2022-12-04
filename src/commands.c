@@ -83,10 +83,12 @@ char* execute_register(char* userID, int socket)
     char buff1[PWD_SIZE], buff2[PWD_SIZE];
 
     send_message(socket, "1#Please enter a password:");
-    receive_message(socket, buff1);
+    if (receive_message(socket, buff1) < 0 )
+        return NULL;
 
     send_message(socket, "1#Please re-enter the password:");
-    receive_message(socket, buff2);
+    if (receive_message(socket, buff2) < 0)
+        return NULL;
     
     // Check if there is no valid password
     if (strcmp(buff1, buff2) != 0 )

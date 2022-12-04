@@ -154,6 +154,8 @@ void *connection_handler(void *clientInfo)
         {
             log_message(threadName, "Executing REGISTER command.");
             message = execute_register(userID, sock);
+            if (message == NULL)
+                break;
         }
         else if (strcmp(client_message, CMD_LOGIN) == 0)
         {
