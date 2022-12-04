@@ -121,7 +121,7 @@ void *connection_handler(void *clientInfo)
     send_message(sock , displayMessage);
     
     // Add the user ID to the thread name for logging
-    snprintf(threadName, sizeof(threadName), "SERVER\\%d %s", clientNumber++, userID);
+    snprintf(threadName, sizeof(threadName), "SERVER\\%d %s", clientNumber, userID);
 
     // Set the user's IP Address
     struct user *u = get_user(userID);
