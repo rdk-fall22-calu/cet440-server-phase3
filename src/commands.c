@@ -118,7 +118,8 @@ char* execute_login(char* userID, int socket)
     // Prompt the user for their password and check to see if it matches 
     send_message(socket, "Please enter your password:");
     char input[50];
-    receive_message(socket, input);
+    if (receive_message(socket, input) < 0)
+        return NULL;
 
     // Check if the input password is the same as the registered password.
     if ( strcmp(input, user->password) == 0 )

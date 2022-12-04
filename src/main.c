@@ -155,12 +155,20 @@ void *connection_handler(void *clientInfo)
             log_message(threadName, "Executing REGISTER command.");
             message = execute_register(userID, sock);
             if (message == NULL)
+            {
+                read_size = -1;
                 break;
+            }
         }
         else if (strcmp(client_message, CMD_LOGIN) == 0)
         {
             log_message(threadName, "Executing LOGIN command.");
             message = execute_login(userID, sock);
+            if (message == NULL)
+            {
+                read_size = -1;
+                break;
+            }
         }
         else if (strcmp(client_message, CMD_MYINFO) == 0)
         {
