@@ -92,7 +92,7 @@ void *connection_handler(void *clientInfo)
     int read_size;
     char *message , mymessage[4000],  client_message[4000], threadName[20],
          userID[10], displayMessage[4000];
-    snprintf(threadName, sizeof(threadName), "SERVER\\%d", clientNumber++);
+    snprintf(threadName, sizeof(threadName), "SERVER\\%d", ++clientNumber);
      
     // Greet the Client
     snprintf(displayMessage, sizeof(displayMessage), "Connecting to client at %s.", info->ipaddress);
