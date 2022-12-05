@@ -111,8 +111,11 @@ char* execute_unregister(char* userID)
     struct user *user = get_user(userID);
 
     // Safety check
-    if (user == NULL || user->status != STATUS_REGISTERED)
+    if (user == NULL)
         return "0#Unable to register user.";
+
+    if (user->status != STATUS_REGISTERED)
+        return "0#Unable to register user. User must be registered but not logged in.";
 
     // Set user back to defaults
     strcpy(user->password, DEFAULT_PASSWORD);
