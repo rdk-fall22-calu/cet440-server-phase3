@@ -160,6 +160,11 @@ void *connection_handler(void *clientInfo)
                 break;
             }
         }
+        else if (strcmp(client_message, CMD_UNREGISTER) == 0)
+        {
+            log_message(threadName, "Executing UNREGISTER command.");
+            message = execute_unregister(userID);
+        }
         else if (strcmp(client_message, CMD_LOGIN) == 0)
         {
             log_message(threadName, "Executing LOGIN command.");

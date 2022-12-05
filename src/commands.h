@@ -14,6 +14,7 @@
 #define CMD_HELP "HELP"
 #define CMD_QUIT "QUIT"
 #define CMD_REGISTER "REGISTER"
+#define CMD_UNREGISTER "UNREGISTER"
 #define CMD_MYINFO "MYINFO"
 #define CMD_ONLINE_USERS "ONLINEUSERS"
 #define CMD_REGISTERED_USERS "REGISTEREDUSERS"
@@ -47,6 +48,14 @@ char* execute_quit();
  * @return char* Response string
  */
 char* execute_register(char* userID, int socket);
+
+/**
+ * @brief The server will attempt to unregister the user and set its data back to defaults.
+ * 
+ * @param userID 
+ * @return char* Response string
+ */
+char* execute_unregister(char* userID);
 
 /**
  * @brief The server will respond with a string telling thme if they had a successful login. Requires registered user.

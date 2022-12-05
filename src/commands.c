@@ -20,7 +20,7 @@ char* execute_help()
     // reset to default color:  \033[0m
     //Quit formatting
 
-    return "1#Commands: QUIT, HELP, REGISTER, LOGIN, MYINFO, ONLINEUSERS, REGISTEREDUSERS";
+    return "1#Commands: QUIT, HELP, REGISTER, UNREGISTER, LOGIN, MYINFO, ONLINEUSERS, REGISTEREDUSERS";
 
     // return  "1#"
     //         "All successful responses begin with prefix 1#\n"
@@ -103,6 +103,24 @@ char* execute_register(char* userID, int socket)
     
     return "1#User successfully registered and password set.";
 
+}
+
+char* execute_unregister(char* userID)
+{
+    // Get the user
+    struct user *user = get_user(userID);
+
+    // Safety check
+    if (user == NULL || user->status != STATUS_REGISTERED)
+        return "0#Unable to register user.";
+
+    // Set user back to defaults
+    strcpy(user->password, DEFAULT_PASSWORD);
+    strcpy(user->address, DEFAULT_IP_ADDRESS);
+    user->status = STATUS_UNREGISTERED;
+
+    return "1#Successfully unregistered user.";
+    
 }
 
 
