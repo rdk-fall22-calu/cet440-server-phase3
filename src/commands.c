@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "server.h"
+#include "logging.h"
 
 char* execute_help()
 {
@@ -70,6 +71,7 @@ char* execute_register(char* userID, int socket)
 {
     // Get the user
     struct user *user = get_user(userID);
+    char display_message[1000];
 
     // Check if the user exists
     if (user == NULL)
@@ -85,18 +87,27 @@ char* execute_register(char* userID, int socket)
     send_message(socket, "1#Please enter a password:");
     if (receive_message(socket, buff1) <= 0 )
         return NULL;
+    snprintf(display_message, sizeof(display_message), "Received password 1: %s", buff1);
+    log_message("SERVER\\PWD", display_message);
 
     send_message(socket, "1#Please re-enter the password:");
     if (receive_message(socket, buff2) <= 0)
         return NULL;
+    snprintf(display_message, sizeof(display_message), "Received password 1: %s", buff1);
+    log_message("SERVER\\PWD", display_message);
 
     if (buff1[0] == '\0' || buff2[0] == '\0')
+    {
+        log_message("SERVER\\PWD", "One of the passwords was empty.");
         return "0#Unable to register user, empty password.";
+    }
     
     // Check if there is no valid password
     if (strcmp(buff1, buff2) != 0 )
     {
-        return "0#Unable to register user, mismatched passwords.";
+        log_message("SERVER\\PWD", "Passwords mismatched.");
+        snprintf(display_message, sizeof(display_message), "0#Unable to register user, mismatched passwords. PWD1: %s, PWD2: %s", buff1, buff2);
+        return display_message;
     }
 
     // Change user's status to registered, copy in password, and save data.
