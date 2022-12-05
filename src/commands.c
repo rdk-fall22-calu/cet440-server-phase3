@@ -83,11 +83,11 @@ char* execute_register(char* userID, int socket)
     char buff1[PWD_SIZE], buff2[PWD_SIZE];
 
     send_message(socket, "1#Please enter a password:");
-    if (receive_message(socket, buff1) < 0 )
+    if (receive_message(socket, buff1) <= 0 )
         return NULL;
 
     send_message(socket, "1#Please re-enter the password:");
-    if (receive_message(socket, buff2) < 0)
+    if (receive_message(socket, buff2) <= 0)
         return NULL;
 
     if (buff1[0] == '\0' || buff2[0] == '\0')
