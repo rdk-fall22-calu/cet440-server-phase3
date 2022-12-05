@@ -89,15 +89,15 @@ char* execute_register(char* userID, int socket)
     send_message(socket, "1#Please re-enter the password:");
     if (receive_message(socket, buff2) < 0)
         return NULL;
+
+    if (buff1[0] == '\0' || buff2[0] == '\0')
+        return "0#Unable to register user, empty password.";
     
     // Check if there is no valid password
     if (strcmp(buff1, buff2) != 0 )
     {
         return "0#Unable to register user, mismatched passwords.";
     }
-
-    if (buff1[0] == '\0')
-        return "0#Unable to register user, empty password.";
 
     // Change user's status to registered, copy in password, and save data.
     user->status = STATUS_REGISTERED;
