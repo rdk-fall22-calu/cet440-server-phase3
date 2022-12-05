@@ -93,7 +93,13 @@ char* execute_register(char* userID, int socket)
     // Check if there is no valid password
     if (strcmp(buff1, buff2) != 0 )
     {
-        return "0#Unable to register user.";
+        return "0#Unable to register user, mismatched passwords.";
+    }
+
+    // Check if password is empty
+    if (strcmp(buff1, "") == 0)
+    {
+        return "0#Unable to register user with empty password.";
     }
 
     // Change user's status to registered, copy in password, and save data.
