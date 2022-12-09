@@ -93,19 +93,17 @@ char* execute_register(char* userID, int socket)
     send_message(socket, "1#Please re-enter the password:");
     if (receive_message(socket, buff2) <= 0)
         return NULL;
-    snprintf(display_message, sizeof(display_message), "Received password 1: %s", buff1);
+    snprintf(display_message, sizeof(display_message), "Received password 2: %s", buff2);
     log_message("SERVER\\PWD", display_message);
 
     if (buff1[0] == '\0' || buff2[0] == '\0')
     {
-        log_message("SERVER\\PWD", "One of the passwords was empty.");
         return "0#Unable to register user, empty password.";
     }
     
     // Check if there is no valid password
     if (strcmp(buff1, buff2) != 0 )
     {
-        log_message("SERVER\\PWD", "Passwords mismatched.");
         snprintf(display_message, sizeof(display_message), "0#Unable to register user, mismatched passwords. PWD1: %s, PWD2: %s", buff1, buff2);
         return display_message;
     }
@@ -126,10 +124,10 @@ char* execute_unregister(char* userID)
 
     // Safety check
     if (user == NULL)
-        return "0#Unable to register user.";
+        return "0#Unable to unregister user.";
 
     if (user->status != STATUS_REGISTERED)
-        return "0#Unable to register user. User must be registered but not logged in.";
+        return "0#Unable to unregister user. User must be registered but not logged in.";
 
     // Set user back to defaults
     strcpy(user->password, DEFAULT_PASSWORD);
