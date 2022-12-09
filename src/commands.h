@@ -21,13 +21,6 @@
 #define CMD_LOGIN "LOGIN"
 
 /**
- * @brief 
- * 
- * @return int The Command that was input
- */
-int get_command_from_input(char* input);
-
-/**
  * @brief Returns a string with all of the help information
  * 
  * @return char* Response string
